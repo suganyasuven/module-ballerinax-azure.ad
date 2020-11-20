@@ -14,7 +14,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import ballerina/config;
+//import ballerina/config;
 import ballerina/test;
 
 @test:Config {}
@@ -33,20 +33,20 @@ public function clientCredentialsGrantClientTest() {
     _ = checkpanic adClient->getUsers();
 }
 
-@test:Config {}
-public function passwordGrantClientTest() {
-    PasswordGrantConfig passwordGrantConfig = {
-        tenantId: TENANT_ID,
-        clientId: CLIENT_ID,
-        clientSecret: CLIENT_SECRET,
-        username: config:getAsString("ad.users.user2.username"),
-        password: config:getAsString("ad.users.user2.password")
-    };
-
-    ClientConfiguration clientConfig = {
-        authHandler: getOutboundOAuth2BearerHandler(passwordGrantConfig)
-    };
-
-    Client adClient = new(clientConfig);
-    _ = checkpanic adClient->getUsers();
-}
+//@test:Config {}
+//public function passwordGrantClientTest() {
+//    PasswordGrantConfig passwordGrantConfig = {
+//        tenantId: TENANT_ID,
+//        clientId: CLIENT_ID,
+//        clientSecret: CLIENT_SECRET,
+//        username: config:getAsString("ad.users.user2.username"),
+//        password: config:getAsString("ad.users.user2.password")
+//    };
+//
+//    ClientConfiguration clientConfig = {
+//        authHandler: getOutboundOAuth2BearerHandler(passwordGrantConfig)
+//    };
+//
+//    Client adClient = new(clientConfig);
+//    _ = checkpanic adClient->getUsers();
+//}

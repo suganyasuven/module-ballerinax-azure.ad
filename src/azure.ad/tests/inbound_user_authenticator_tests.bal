@@ -76,41 +76,41 @@ service {
    }
 };
 
-@test:Config {}
-public function basicAuthInboundHandlerTest() {
-    var serviceOneAttachResult = shopEP.__attach(shopService);
-    if (serviceOneAttachResult is error) {
-        test:assertFail("error when attaching the service to the listener");
-    } else {
-        var serviceOneStartResult = shopEP.__start();
-        if (serviceOneStartResult is error) {
-            test:assertFail("error when starting the service");
-        } else {
-            http:Client customerClient = new("https://localhost:9090", {
-                secureSocket: {
-                    trustStore: {
-                        path: "src/azure.ad/tests/resources/ballerinaTruststore.p12",
-                        password: "ballerina"
-                    }
-                }
-            });
-            http:Request getCarRequest = new;
-            string username = config:getAsString("ad.users.user1.username");
-            string password = config:getAsString("ad.users.user1.password");
-            getCarRequest.setHeader("Authorization", "Basic " + checkpanic getBasicAuthToken(username, password));
-            var cartResponse = checkpanic customerClient->get("/shop/cart", getCarRequest);
-            if (cartResponse is http:Response) {
-                json cartJson = checkpanic cartResponse.getJsonPayload();
-                json[] items = <json[]>checkpanic cartJson.items;
-                test:assertEquals(items.length(), 2);
-                test:assertEquals(items[0].name, "eggs");
-                test:assertEquals(items[0].quantity, 10);
-            }
-            
-            checkpanic shopEP.__gracefulStop();
-        }
-    }
-}
+//@test:Config {}
+//public function basicAuthInboundHandlerTest() {
+//    var serviceOneAttachResult = shopEP.__attach(shopService);
+//    if (serviceOneAttachResult is error) {
+//        test:assertFail("error when attaching the service to the listener");
+//    } else {
+//        var serviceOneStartResult = shopEP.__start();
+//        if (serviceOneStartResult is error) {
+//            test:assertFail("error when starting the service");
+//        } else {
+//            http:Client customerClient = new("https://localhost:9090", {
+//                secureSocket: {
+//                    trustStore: {
+//                        path: "src/azure.ad/tests/resources/ballerinaTruststore.p12",
+//                        password: "ballerina"
+//                    }
+//                }
+//            });
+//            http:Request getCarRequest = new;
+//            string username = config:getAsString("ad.users.user1.username");
+//            string password = config:getAsString("ad.users.user1.password");
+//            getCarRequest.setHeader("Authorization", "Basic " + checkpanic getBasicAuthToken(username, password));
+//            var cartResponse = checkpanic customerClient->get("/shop/cart", getCarRequest);
+//            if (cartResponse is http:Response) {
+//                json cartJson = checkpanic cartResponse.getJsonPayload();
+//                json[] items = <json[]>checkpanic cartJson.items;
+//                test:assertEquals(items.length(), 2);
+//                test:assertEquals(items[0].name, "eggs");
+//                test:assertEquals(items[0].quantity, 10);
+//            }
+//
+//            checkpanic shopEP.__gracefulStop();
+//        }
+//    }
+//}
 
 isolated function getBasicAuthToken(string username, string password) returns string|error {
     if (username == "" || password == "") {

@@ -326,8 +326,8 @@ public client class Client {
     # 
     # + user - The user
     # + return - Error if occurred when retrieving
-    public remote function deleteUser(User user) returns @tainted AdClientError? {
-        var deleteUserResponseOrError = self.graphClient->delete(string `/users/${user.userPrincipalName}`);
+    public remote function deleteUser(string userPrincipalName) returns @tainted AdClientError? {
+        var deleteUserResponseOrError = self.graphClient->delete(string `/users/${userPrincipalName}`);
 
         if deleteUserResponseOrError is error {
             return AdClientError("unable to connect to azure active directory", deleteUserResponseOrError);
@@ -511,8 +511,8 @@ public client class Client {
     # 
     # + group - Group to delete
     # + return - Error if occurred when retrieving
-    public remote function deleteGroup(Group group) returns @tainted AdClientError? {
-        var deleteGroupResponseOrError = self.graphClient->delete(string `/groups/${group.id}`);
+    public remote function deleteGroup(string groupID) returns @tainted AdClientError? {
+        var deleteGroupResponseOrError = self.graphClient->delete(string `/groups/${groupID}`);
 
         if deleteGroupResponseOrError is error {
             return AdClientError("unable to connect to azure active directory", deleteGroupResponseOrError);
